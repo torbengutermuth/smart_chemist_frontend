@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Mocha Tests</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="/vendor/css/mocha.css" />
+	</head>
+	<body>
+		<div id="mocha"></div>
+
+		<script src="/vendor/js/chai.js"></script>
+		<script src="/vendor/js/mocha.js"></script>
+
+		<script class="mocha-init">
+			mocha.setup('bdd');
+			mocha.checkLeaks();
+		</script>
+        <!-- Add tests here -->
+		<script class="mocha-exec">
+			mocha.run();
+		</script>
+	</body>
+</html>
+
