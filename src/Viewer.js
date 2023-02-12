@@ -1,0 +1,167 @@
+/** Molecule and match viewer. Implemented with a bootstrap carousel. */
+class Viewer {
+  /**
+   * Molecule and match viewer. Implemented with a bootstrap carousel.
+   * @param {HTMLElement} element - element to bind to
+   * @param {string} carouselId - ID of the carousel
+   */
+  constructor (element, carouselId = 'molecule-carousel') {
+    this.element = element
+    this.carouselId = carouselId
+    this.molecules = []
+    this.idToMatches = new Map()
+
+    this.render()
+
+    this.innerCarousel = this.element.getElementsByClassName('carousel-inner')[0]
+    this.listGroup = this.element.getElementsByClassName('list-group')[0]
+    this.listGroup.addEventListener('click', (event) => { this.handleClick(event) })
+    this.element.addEventListener('slid.bs.carousel', (event) => { this.handleCarousel(event) })
+  }
+
+  /**
+   * Set the molecules in the viewer. This affects the visualization and the
+   * matches. The first molecule and its matches will be shown.
+   * @param {Array<object>} molecules - molecule to set
+   */
+  setMolecules (molecules) {
+    this.molecules = molecules
+    this.idToMatches = new Map()
+
+    let first = true
+    molecules.forEach((molecule) => {
+      const carouselItem = this.createCarouselItem(molecule)
+      if (first) {
+        carouselItem.classList.add('active')
+        this.setMatches(molecule.matches)
+      }
+
+      this.innerCarousel.appendChild(carouselItem)
+
+      if (first) {
+        const svgElement = carouselItem.getElementsByTagName('svg')[0]
+        highlightSubstructure(svgElement, molecule.matches[0].atom_indices)
+        first = false
+      }
+    })
+  }
+
+  /**
+   * Set the matches in the viewer. The first match will be set as active.
+   * @param {Array<objects>} matches - the matches to set
+   */
+  setMatches (matches) {
+    this.listGroup.innerHTML = ''
+    matches.forEach((match) => {
+      const indexes = match.atom_indices.join(',')
+      let shortendIndexes = match.atom_indices.slice(0, 2).join(', ')
+      if (match.atom_indices.length > 2) {
+        shortendIndexes += ', ...'
+      }
+      const listElement = document.createElement('li')
+      listElement.innerText = `${match.trivial_name.name} (${shortendIndexes})`
+      listElement.id = `${match.trivial_name.name.toLowerCase()}-${indexes}`
+      listElement.classList.add('list-group-item')
+      this.listGroup.appendChild(listElement)
+      this.idToMatches.set(listElement.id, match)
+    })
+    const firsElement = this.listGroup.getElementsByClassName('list-group-item')[0]
+    firsElement.classList.add('active')
+  }
+
+  /**
+   * Set the active match list element. Will remove all other actives.
+   * @param {HTMLElement} listElement - the list element to set as active
+   */
+  setActiveListElement (listElement) {
+    const activeElements = this.listGroup.getElementsByClassName('active')
+    for (let i = 0; i < activeElements.length; i++) {
+      activeElements[i].classList.remove('active')
+    }
+    listElement.classList.add('active')
+  }
+
+  /**
+   * Set the substructure to be highlighted
+   * @param {Array<number>} atomIndexes - atom indexes of the substructure
+   */
+  setHighlight (atomIndexes) {
+    const svgElement = this.innerCarousel
+      .getElementsByClassName('active')[0]
+      .getElementsByTagName('svg')[0]
+    const substructureHighlights = svgElement.getElementsByClassName('substructure-highlight')
+    while (substructureHighlights.length) {
+      substructureHighlights[0].remove()
+    }
+    highlightSubstructure(svgElement, atomIndexes)
+  }
+
+  /**
+   * Handle click on a match list element. Sets the clicked element as active
+   * and highlights the substructure.
+   * @param {object} clickEvent - event to handle
+   */
+  handleClick (clickEvent) {
+    const listElement = clickEvent.target
+    if (listElement.classList.contains('active')) {
+      return
+    }
+    this.setActiveListElement(listElement)
+    this.setHighlight(this.idToMatches.get(listElement.id).atom_indices)
+  }
+
+  /**
+   * Handler carousel cycling. The matches are set for the current molecule
+   * and the first match substructure highlighted.
+   * @param {object} cycleEvent - carousel cycle event
+   */
+  handleCarousel (cycleEvent) {
+    const currentElement = this.molecules[cycleEvent.to]
+    this.setMatches(currentElement.matches)
+    this.setHighlight(currentElement.matches[0].atom_indices)
+  }
+
+  /**
+   * Create a carousel item for a molecule. Sets the SVG and the name.
+   * @param {object} molecule - molecule to create an element for
+   */
+  createCarouselItem (molecule) {
+    const carouselItem = document.createElement('div')
+    carouselItem.classList.add('carousel-item')
+    carouselItem.classList.add('text-center')
+    carouselItem.innerHTML = `
+<div class="text-center">
+    ${molecule.svg}
+</div>
+<div class="carousel-caption d-block" style="color: black;">
+	<h5>${molecule.name}</h5>
+</div>`
+    return carouselItem
+  }
+
+  /** Render the viewer. */
+  render () {
+    this.element.innerHTML = `
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <div id="${this.carouselId}" class="carousel slide" data-bs-interval="false" data-bs-ride="carousel">
+                <div class="carousel-inner"></div>
+                <button class="carousel-control-prev carousel-dark" type="button" data-bs-target="#${this.carouselId}" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next carousel-dark" type="button" data-bs-target="#${this.carouselId}" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <h3 class="m-3">Substructures</h3>
+            <ul class="list-group"></ul>
+        </div>
+    </div>
+</div>`
+  }
+}
