@@ -1,8 +1,8 @@
-/** File and molecule upload modal */
+/** File and molecule upload modal. */
 class FileModal {
   /**
-   * File and molecule upload modal
-   * @param {object} element - element to bind to
+   * File and molecule upload modal.
+   * @param {HTMLElement} element - element to bind to
    * @param {string} modalId - ID of the modal
    * @param {boolean} show - show the modal after initialization
    */
@@ -23,7 +23,7 @@ class FileModal {
   }
 
   /**
-   * Validate the form contains molecule information
+   * Validate the form contains molecule information.
    * @param {object} submitEvent - submit event object
    */
   validate (submitEvent) {
@@ -35,17 +35,17 @@ class FileModal {
     }
   }
 
-  /** Show the modal */
+  /** Show the modal. */
   show () {
     this.bootstrapModal.hide()
   }
 
-  /** Hide the modal */
+  /** Hide the modal. */
   hide () {
     this.bootstrapModal.hide()
   }
 
-  /** Render the modal */
+  /** Render the modal. */
   render () {
     this.element.innerHTML = `
 <div class="modal fade" id="${this.modalId}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="${this.modalLabelId}" aria-hidden="false" role="dialog">

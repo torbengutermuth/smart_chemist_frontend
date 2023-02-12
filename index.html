@@ -9,92 +9,15 @@
 		<title>SMART Chemist</title>
 	</head>
 	<body>
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-9">
-					<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-						<div class="carousel-indicators">
-							<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-							<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-							<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-						</div>
-						<div class="carousel-inner">
-							<div class="carousel-item active">
-								<img src="/test/caffeine.svg" class="d-block w-100">
-								<div class="carousel-caption d-block" style="color: black;">
-									<h5>Caffeine 1</h5>
-								</div>
-							</div>
-							<div class="carousel-item">
-								<img src="/test/caffeine.svg" class="d-block w-100">
-								<div class="carousel-caption d-block" style="color: black;">
-									<h5>Caffeine 2</h5>
-								</div>
-							</div>
-							<div class="carousel-item">
-								<img src="/test/caffeine.svg" class="d-block w-100">
-								<div class="carousel-caption d-block" style="color: black;">
-									<h5>Caffeine 3</h5>
-								</div>
-							</div>
-						</div>
-						<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-						  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-						  <span class="visually-hidden">Previous</span>
-						</button>
-						<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-						  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-						  <span class="visually-hidden">Next</span>
-						</button>
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<h3 class="m-3">Substructures</h3>
-					<ul class="list-group">
-						<li class="list-group-item">Purine</li>
-						<li class="list-group-item">Imidazole</li>
-						<li class="list-group-item">Carbonyl</li>
-						<li class="list-group-item">Amine</li>
-					</ul>
-				</div>
-				<div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false" role="dialog">
-					<div class="modal-dialog modal-dialog-centered">
-						<div class="modal-content">
-							<form class="form">
-								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">Load Molecules</h5>
-								</div>
-								<div class="modal-body">
-									<div class="mb-3">
-										<label for="smiles" class="form-label">SMILES</label>
-										<input type="text" name="smiles" class="form-control"/>
-									</div>
-									<div class="mb-3">
-										<label for="mol-file" class="form-label">File</label>
-										<input type="file" name="mol-file" class="form-control"/>
-									</div>
-								</div>
-								<div class="modal-footer">
-									<input type="submit" value="Submit" class="btn btn-primary"/>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+        <div id="app"></div>
 		<script src="/vendor/js/bootstrap.bundle.min.js"></script>
+		<script src="/src/App.js"></script>
+		<script src="/src/FileModal.js"></script>
+		<script src="/src/Viewer.js"></script>
+		<script src="/src/highlight.js"></script>
 		<script>
-			function submit(e) {
-				e.preventDefault();
-				window.modal.hide();
-			}
-
 			addEventListener("load", () => {
-				window.modal = new bootstrap.Modal(document.getElementById("exampleModal"));
-				modal.show();
-				window.form = document.getElementsByClassName("form")[0];
-				form.addEventListener("submit", submit);
+                window.app = new App(document.getElementById("app"))
 			});
 		</script>
 	</body>
