@@ -1,17 +1,25 @@
 # SMART Chemist Frontend
 
-## Setup
+## Standalone Setup
 
-This is currently a prototype. You can start it by pointing a HTTP server at the project directory, for example by running:
+Any HTTP server that can serve files statically will work. Run this command to use the python3 http server:
+
 ```
 python3 -m http.server
 ```
-Whatever your server you are running should tell you where on localhost you have to navigate to see the app.
+
+This will start a server at: http://127.0.0.1:8000/
 
 ## Test
 
-Once again start your HTTP server and navigate to http://<your test server>/test/test.html
+Once again start your HTTP server and navigate to http://<your test server root>/test/test.html
 
 ## Docs
 
-Documentation is written in general JSDoc style. One generator is https://github.com/jsdoc/jsdoc.
+Documentation is written in general JSDoc style. One generator is https://github.com/jsdoc/jsdoc. Using that and the command:
+
+```
+jsdoc src/*.js -d doc
+```
+
+... will create a `doc` directory. Navigate to http://<your test server root>/doc/index.html to actually read the docs.

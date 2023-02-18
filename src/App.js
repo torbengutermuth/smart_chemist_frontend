@@ -1,5 +1,11 @@
+/** Central app component. */
 class App {
-  constructor (element, baseUrl='/api/names') {
+  /**
+   * Central app component.
+   * @param {HTMLElement} element - element to bind to
+   * @param {string} baseUrl - base URL to send requests to
+   */
+  constructor (element, baseUrl) {
     this.element = element
     this.baseUrl = baseUrl
     this.viewerId = 'viewer'
@@ -12,15 +18,19 @@ class App {
     this.element.addEventListener('submit', (event) => { this.requestData(event) })
   }
 
+  /**
+   * Call the server with a request.
+   * @param {object} submitEvent - submit event object
+   */
   requestData (submitEvent) {
     submitEvent.preventDefault()
-    console.log(submitEvent)
     const formData = new FormData(submitEvent.target);
     fetch(this.baseUrl, {
       method: 'POST',
       body: formData
     }).then(async (response) => {
       if (!response.ok) {
+        this.modal.showError('Encountered a server error')
         return
       }
       const molecules = await response.json()
@@ -29,6 +39,7 @@ class App {
     })
   }
 
+  /** Render the app. */
   render () {
     this.element.innerHTML = `<div id="${this.viewerId}"></div><div id="${this.modalId}"></div>`
   }

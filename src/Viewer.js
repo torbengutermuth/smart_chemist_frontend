@@ -27,6 +27,7 @@ class Viewer {
   setMolecules (molecules) {
     this.molecules = molecules
     this.idToMatches = new Map()
+    this.innerCarousel.innerHTML = ''
 
     let first = true
     molecules.forEach((molecule) => {
@@ -146,7 +147,9 @@ class Viewer {
     <div class="row">
         <div class="col-sm-9">
             <div id="${this.carouselId}" class="carousel slide" data-bs-interval="false" data-bs-ride="carousel">
-                <div class="carousel-inner"></div>
+                <div class="carousel-inner">
+                    <svg width="400px" height="400px"></svg>
+                </div>
                 <button class="carousel-control-prev carousel-dark" type="button" data-bs-target="#${this.carouselId}" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>

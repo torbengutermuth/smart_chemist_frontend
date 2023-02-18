@@ -27,11 +27,11 @@ class FileModal {
    * @param {object} submitEvent - submit event object
    */
   validate (submitEvent) {
-    this.errorMessage.classList.add('visually-hidden')
-    if (this.form.smiles.value === '' &&
-            this.form['mol-file'].value === '') {
+    this.hideError()
+    if (this.form.smiles.value === ''
+        && this.form['mol-file'].value === '') {
       submitEvent.preventDefault()
-      this.errorMessage.classList.remove('visually-hidden')
+      this.showError('Requires either a SMILES or a molecule file')
     }
   }
 
@@ -43,6 +43,24 @@ class FileModal {
   /** Hide the modal. */
   hide () {
     this.bootstrapModal.hide()
+  }
+
+  /**
+   * Show an error message.
+   * @param {string} message - the error message
+   */
+  showError (message) {
+    if (message) {
+      this.errorMessage.innerText = message
+    } else {
+      this.errorMessage.innerText = 'An error occurred'
+    }
+    this.errorMessage.classList.remove('visually-hidden')
+  }
+
+  /* Hide error. */
+  hideError () {
+    this.errorMessage.classList.add('visually-hidden')
   }
 
   /** Render the modal. */
@@ -66,7 +84,7 @@ class FileModal {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <p class="text-danger visually-hidden" id="${this.errorMessageId}">Requires either a SMILES or a molecule file</p>
+                    <p class="text-danger visually-hidden" id="${this.errorMessageId}"></p>
                     <input type="submit" value="Submit" class="btn btn-primary"/>
                 </div>
             </form>
