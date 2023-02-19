@@ -1,21 +1,29 @@
 /** Molecule and match viewer. Implemented with a bootstrap carousel. */
 class Viewer {
+  MATCH_SORT_ORDER = {
+    'functional_group': 0,
+    'cyclic': 1,
+    'overshadowed': 2
+  }
+
   /**
    * Molecule and match viewer. Implemented with a bootstrap carousel.
    * @param {HTMLElement} element - element to bind to
    * @param {string} carouselId - ID of the carousel
    */
-  constructor (element, carouselId = 'molecule-carousel') {
+  constructor (element, carouselId = 'molecule-carousel', collapseId = 'overshadowed-collapse') {
     this.element = element
     this.carouselId = carouselId
+    this.collapseId = collapseId
     this.molecules = []
     this.idToMatches = new Map()
 
     this.render()
 
     this.innerCarousel = this.element.getElementsByClassName('carousel-inner')[0]
-    this.listGroup = this.element.getElementsByClassName('list-group')[0]
-    this.listGroup.addEventListener('click', (event) => { this.handleClick(event) })
+    this.matches = this.element.getElementsByClassName('matches')[0]
+    this.matches.parentElement.addEventListener('click', (event) => { this.handleClick(event) })
+    this.overshadowed = this.element.getElementsByClassName('overshadowed')[0]
     this.element.addEventListener('slid.bs.carousel', (event) => { this.handleCarousel(event) })
   }
 
@@ -52,8 +60,14 @@ class Viewer {
    * @param {Array<objects>} matches - the matches to set
    */
   setMatches (matches) {
-    this.listGroup.innerHTML = ''
-    matches.forEach((match) => {
+    const previousMatches = this.matches.getElementsByTagName('li')
+    while (previousMatches.length > 0) {
+      previousMatches[0].remove()
+    }
+
+    matches.sort((a, b) => {
+      return this.MATCH_SORT_ORDER[a.trivial_name.group] - this.MATCH_SORT_ORDER[b.trivial_name.group]
+    }).forEach((match) => {
       const indexes = match.atom_indices.join(',')
       let shortendIndexes = match.atom_indices.slice(0, 2).join(', ')
       if (match.atom_indices.length > 2) {
@@ -63,11 +77,20 @@ class Viewer {
       listElement.innerText = `${match.trivial_name.name} (${shortendIndexes})`
       listElement.id = `${match.trivial_name.name.toLowerCase()}-${indexes}`
       listElement.classList.add('list-group-item')
-      this.listGroup.appendChild(listElement)
+      if (match.trivial_name.group == 'functional_group') {
+        listElement.classList.add('list-group-item-success')
+        this.matches.appendChild(listElement)
+      } else if (match.trivial_name.group == 'cyclic') {
+        listElement.classList.add('list-group-item-primary')
+        this.matches.appendChild(listElement)
+      } else {
+        listElement.classList.add('list-group-item-warning')
+        this.overshadowed.appendChild(listElement)
+      }
       this.idToMatches.set(listElement.id, match)
     })
-    const firsElement = this.listGroup.getElementsByClassName('list-group-item')[0]
-    firsElement.classList.add('active')
+    const firstElement = this.matches.getElementsByClassName('list-group-item')[0]
+    firstElement.classList.add('active')
   }
 
   /**
@@ -75,7 +98,7 @@ class Viewer {
    * @param {HTMLElement} listElement - the list element to set as active
    */
   setActiveListElement (listElement) {
-    const activeElements = this.listGroup.getElementsByClassName('active')
+    const activeElements = this.matches.parentElement.getElementsByClassName('active')
     for (let i = 0; i < activeElements.length; i++) {
       activeElements[i].classList.remove('active')
     }
@@ -105,6 +128,9 @@ class Viewer {
   handleClick (clickEvent) {
     const listElement = clickEvent.target
     if (listElement.classList.contains('active')) {
+      return
+    }
+    if (listElement.classList.contains('btn')) {
       return
     }
     this.setActiveListElement(listElement)
@@ -143,7 +169,7 @@ class Viewer {
   /** Render the viewer. */
   render () {
     this.element.innerHTML = `
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-sm-9">
             <div id="${this.carouselId}" class="carousel slide" data-bs-interval="false" data-bs-ride="carousel">
@@ -161,8 +187,18 @@ class Viewer {
             </div>
         </div>
         <div class="col-sm-3">
-            <h3 class="m-3">Substructures</h3>
-            <ul class="list-group"></ul>
+            <div class="row">
+                <h3 class="my-3">Substructures</h3>
+                <ul class="list-group matches">
+                </ul>
+                <ul class="list-group">
+                    <div class="collapse overshadowed" id="${this.collapseId}">
+                    </div>
+                    <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#${this.collapseId}">
+                        Show overshadowed
+                    </button>
+                </ul>
+            </div>
         </div>
     </div>
 </div>`

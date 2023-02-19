@@ -29,7 +29,7 @@ class FileModal {
   validate (submitEvent) {
     this.hideError()
     if (this.form.smiles.value === ''
-        && this.form['mol-file'].value === '') {
+        && this.form['molecule_file'].value === '') {
       submitEvent.preventDefault()
       this.showError('Requires either a SMILES or a molecule file')
     }
@@ -80,7 +80,7 @@ class FileModal {
                     </div>
                     <div class="mb-3">
                         <label for="mol-file" class="form-label">File</label>
-                        <input type="file" name="mol-file" class="form-control" accept=".sdf"/>
+                        <input type="file" name="molecule_file" class="form-control" accept=".sdf"/>
                     </div>
                 </div>
                 <div class="modal-footer">
