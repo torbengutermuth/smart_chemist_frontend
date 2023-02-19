@@ -49,6 +49,11 @@ describe('Viewer', () => {
     chai.expect(overshadowed[0].classList.contains('active'))
   })
 
+  it('should sort matches', () => {
+    const viewer = new Viewer(document.getElementById('viewer-test'))
+    chai.expect(viewer.compareMatches(matches[0], matches[1])).to.be.below(0)
+  })
+
   it('should set the highlighted substructure', () => {
     const viewer = new Viewer(document.getElementById('viewer-test'))
     viewer.setMolecules(molecules)

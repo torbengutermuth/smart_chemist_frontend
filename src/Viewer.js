@@ -66,7 +66,7 @@ class Viewer {
     }
 
     matches.sort((a, b) => {
-      return this.MATCH_SORT_ORDER[a.trivial_name.group] - this.MATCH_SORT_ORDER[b.trivial_name.group]
+      return this.compareMatches(a, b)
     }).forEach((match) => {
       const indexes = match.atom_indices.join(',')
       let shortendIndexes = match.atom_indices.slice(0, 2).join(', ')
@@ -91,6 +91,37 @@ class Viewer {
     })
     const firstElement = this.matches.getElementsByClassName('list-group-item')[0]
     firstElement.classList.add('active')
+  }
+
+  /**
+   * Sorting comparator for two matches. Sorts by category, name and atom
+   * indexes.
+   * @param {object} a - match object
+   * @param {object} b - match object
+   * @returns {number} a negative number if a < b, a positive if a > b
+   *   and 0 if a === b by the above criteria
+   */
+  compareMatches(a, b) {
+    const aCategory = this.MATCH_SORT_ORDER[a.trivial_name.group]
+    const bCategory = this.MATCH_SORT_ORDER[b.trivial_name.group]
+    if (aCategory !== bCategory) {
+      return aCategory - bCategory
+    }
+
+    if (a.trivial_name.name < b.trivial_name.name) {
+      return -1
+    }
+    if (a.trivial_name.name > b.trivial_name.name) {
+      return 1
+    }
+
+    if (a.atom_indices < b.atom_indices) {
+      return -1
+    }
+    if (a.atom_indices > b.atom_indices) {
+      return 1
+    }
+    return 0
   }
 
   /**
