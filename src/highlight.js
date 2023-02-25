@@ -141,29 +141,54 @@ function createBondMarker (bond) {
 }
 
 /**
- * Get atom postion from bonds containing it. Useful for finding positions of
- * chain atoms.
+ * Get atom postion from bonds containing it.
  * @param {string} atomName - name of the atom
  * @param {Array<SVGElement>} bondPaths - bond SVG elements containing the atom
  * @returns {Array<number, 2>} position of the atom contained in the bonds
  */
 function getAtomPositionFromBonds (atomName, bondPaths) {
+  // extract the bond position from a single bond
+  if (bondPaths.length === 1) {
+    return getBondPositionForAtom(atomName, bondPaths[0])
+  }
   const combinedBonds = combineBonds(bondPaths)
+  // extract the bond position from a single bond sorted to the front
+  if (combinedBonds[0].length === 1) {
+    return getBondPositionForAtom(atomName, combinedBonds[0][0])
+  }
+  /* If a bond is split into two the head and tail points of the two bonds
+     will repeat. The position associated with the query that is not repeated
+     is the true one */
+  if (combinedBonds.length === 1 && combinedBonds[0].length === 2) {
+    let positions = [
+      ...getBondAtomPositions(combinedBonds[0][0]),
+      ...getBondAtomPositions(combinedBonds[0][1]),
+    ]
+    const candidatePositions = [
+      getBondPositionForAtom(atomName, combinedBonds[0][0]),
+      getBondPositionForAtom(atomName, combinedBonds[0][1]),
+    ]
+    for (const point of candidatePositions) {
+      let found = 0
+      for (const otherPoint of positions) {
+        if (point.every((val, index) => val === otherPoint[index])) {
+          found += 1
+        }
+      }
+      if (found === 1) {
+        return point
+      }
+    }
+  }
+
+  // find the atoms point at the intersection of two split bonds
   let possibleAtomPoints = []
   for (const value of combinedBonds) {
     const currentAtomPositions = []
     for (const bond of value) {
-      const [fromPosition, toPosition] = getBondAtomPositions(bond)
-      if (bond.classList[1] === atomName) {
-        currentAtomPositions.push(fromPosition)
-      } else {
-        currentAtomPositions.push(toPosition)
-      }
+      currentAtomPositions.push(getBondPositionForAtom(atomName, bond))
     }
 
-    if (value.length === 1) {
-      return currentAtomPositions[0]
-    }
     if (possibleAtomPoints.length === 0) {
       possibleAtomPoints = currentAtomPositions.slice()
     } else {
@@ -193,6 +218,21 @@ function combineBonds (bondPaths) {
     })
   }
   return Array.from(combinedBonds.values()).sort((a, b) => a.length - b.length)
+}
+
+/**
+ * Get positon of an atom in a bond by its name.
+ * @param {string} atomName - name of the atom
+ * @param {SVGElement} bondPath - bond SVG element
+ * @returns {Array<number, 2>} position of the atom
+ */
+function getBondPositionForAtom(atomName, bond) {
+  const [fromPosition, toPosition] = getBondAtomPositions(bond)
+  if (bond.classList[1] === atomName) {
+    return fromPosition
+  } else {
+    return toPosition
+  }
 }
 
 /**

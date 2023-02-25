@@ -86,4 +86,17 @@ Q 91.3 284.4, 94.4 284.4
 
     testElement.remove()
   })
+
+  const terminalMethylResponse = {"name": "Methanol", "svg": "<?xml version='1.0' encoding='iso-8859-1'?>\n<svg version='1.1' baseProfile='full' xmlns='http://www.w3.org/2000/svg' xmlns:rdkit='http://www.rdkit.org/xml' xmlns:xlink='http://www.w3.org/1999/xlink' xml:space='preserve'\nwidth='400px' height='400px' viewBox='0 0 400 400'>\n<!-- END OF HEADER -->\n<rect style='opacity:1.0;fill:#FFFFFF;stroke:none' width='400.0' height='400.0' x='0.0' y='0.0'> </rect>\n<path class='bond-0 atom-0 atom-1' d='M 49.9,199.8 L 169.4,199.8' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />\n<path class='bond-0 atom-0 atom-1' d='M 169.4,199.8 L 288.9,199.8' style='fill:none;fill-rule:evenodd;stroke:#FF0000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />\n<path class='atom-1' d='M 297.5 199.9\nQ 297.5 193.1, 300.8 189.3\nQ 304.2 185.5, 310.5 185.5\nQ 316.8 185.5, 320.1 189.3\nQ 323.5 193.1, 323.5 199.9\nQ 323.5 206.7, 320.1 210.7\nQ 316.7 214.5, 310.5 214.5\nQ 304.2 214.5, 300.8 210.7\nQ 297.5 206.8, 297.5 199.9\nM 310.5 211.3\nQ 314.8 211.3, 317.1 208.5\nQ 319.5 205.5, 319.5 199.9\nQ 319.5 194.3, 317.1 191.5\nQ 314.8 188.7, 310.5 188.7\nQ 306.2 188.7, 303.8 191.5\nQ 301.5 194.3, 301.5 199.9\nQ 301.5 205.6, 303.8 208.5\nQ 306.2 211.3, 310.5 211.3\n' fill='#FF0000'/>\n<path class='atom-1' d='M 327.9 185.8\nL 331.7 185.8\nL 331.7 197.8\nL 346.2 197.8\nL 346.2 185.8\nL 350.1 185.8\nL 350.1 214.1\nL 346.2 214.1\nL 346.2 201.0\nL 331.7 201.0\nL 331.7 214.1\nL 327.9 214.1\nL 327.9 185.8\n' fill='#FF0000'/>\n</svg>\n", "matches": [{"atom_indices": [1], "trivial_name": {"name": "Hydroxy", "smarts": "[#8H1,#8H0-]", "group": "functional_group"}}, {"atom_indices": [0], "trivial_name": {"name": "Methyl", "smarts": "[#6H3X4]", "group": "functional_group"}}]}
+
+  it('should highlight terminal methyls bound to heteroatoms', () => {
+    const testElement = document.createElement('div')
+    testElement.id = 'svg-test'
+    document.body.appendChild(testElement)
+
+    testElement.innerHTML = terminalMethylResponse.svg
+    const svgElement = testElement.getElementsByTagName('svg')[0]
+    const atomIndexes = terminalMethylResponse.matches[1].atom_indices
+    highlightSubstructure(svgElement, atomIndexes)
+  })
 })
