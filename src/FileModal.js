@@ -80,7 +80,7 @@ class FileModal {
                     </div>
                     <div class="mb-3">
                         <label for="mol-file" class="form-label">File</label>
-                        <input type="file" name="molecule_file" class="form-control" accept=".sdf"/>
+                        <input type="file" name="molecule_file" class="form-control" accept=".smi, .sdf"/>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -65,6 +65,11 @@ class Viewer {
       previousMatches[0].remove()
     }
 
+    const previousOvershadowed = this.overshadowed.getElementsByTagName('li')
+    while (previousOvershadowed.length > 0) {
+      previousOvershadowed[0].remove()
+    }
+
     matches.sort((a, b) => {
       return this.compareMatches(a, b)
     }).forEach((match) => {

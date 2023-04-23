@@ -136,6 +136,7 @@ function createBondMarker (bond) {
   const clonedBond = bond.cloneNode(false)
   clonedBond.style.stroke = '#8080ff'
   clonedBond.style['stroke-width'] = '12px'
+  clonedBond.style['stroke-linecap'] = 'round'
   clonedBond.setAttributeNS(null, 'class', 'substructure-highlight')
   return clonedBond
 }
