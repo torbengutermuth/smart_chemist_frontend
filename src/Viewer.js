@@ -195,9 +195,7 @@ class Viewer {
     carouselItem.innerHTML = `
 <div class="text-center">
     ${molecule.svg}
-</div>
-<div class="carousel-caption d-block" style="color: black;">
-	<h5>${molecule.name}</h5>
+    <h5>${molecule.name}</h5>
 </div>`
     return carouselItem
   }
@@ -231,7 +229,7 @@ class Viewer {
                     <div class="collapse overshadowed" id="${this.collapseId}">
                     </div>
                     <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#${this.collapseId}">
-                        Show overshadowed
+                        Toggle overshadowed
                     </button>
                 </ul>
             </div>

@@ -13,9 +13,38 @@ function highlightSubstructure (svgElement, atomIndexes) {
   const [atoms, bonds] = getSubstructureElements(svgElement, atomIndexes)
   if (atoms.size === 0 && atomIndexes.length === 1) {
     const containingElements = svgElement.querySelectorAll('.atom-' + atomIndexes[0])
-    const atomPosition = getAtomPositionFromBonds('atom-' + atomIndexes[0], containingElements)
-    const atomMarker = createAtomMarkerPosition(atomPosition, 12)
-    svgElement.insertBefore(atomMarker, backgroundRect.nextSibling)
+    let atomPosition = undefined
+    // chiral down bond
+    if (containingElements.length > 10) {
+      let otherAtomName = containingElements[0].classList[1]
+      if (otherAtomName === 'atom-' + atomIndexes[0]) {
+          otherAtomName = containingElements[0].classList[2]
+      }
+      const otherAtomElements = svgElement.querySelectorAll('.' + otherAtomName)
+      const otherAtomPosition = getAtomPositionFromBonds(otherAtomName, otherAtomElements)
+      atomPosition = getFurthestFromOtherAtom(
+        'atom-' + atomIndexes[0],
+        otherAtomPosition,
+        containingElements
+      )
+    // chiral up bond
+    } else if (containingElements.length === 1 && getPathPositions(containingElements[0]).length == 3) {
+      const positions = getPathPositions(containingElements[0])
+      if (containingElements[0].classList[1] === 'atom-' + atomIndexes[0]) {
+        atomPosition = positions[0]
+      } else {
+        atomPosition = [
+          (positions[1][0] + positions[2][0]) / 2,
+          (positions[1][1] + positions[2][1]) / 2
+        ]
+      }
+    } else {
+      atomPosition = getAtomPositionFromBonds('atom-' + atomIndexes[0], containingElements)
+    }
+    if (atomPosition) {
+      const atomMarker = createAtomMarkerPosition(atomPosition, 12)
+      svgElement.insertBefore(atomMarker, backgroundRect.nextSibling)
+    }
   }
   for (const value of atoms.values()) {
     value.forEach((atom) => {
@@ -263,4 +292,59 @@ function getCommonPoint (points, otherPoints) {
       }
     }
   }
+}
+
+/**
+ * Get furthest bond position from another atom. Useuful for stereo bonds
+ * pointing down, which are split into many lines.
+ * @param {string} atomName - name of the atom
+ * @param {Array<number, 2>} otherAtomPosition - position of the other atom
+ * @param {Array<Array<SVGElement>>} bondPaths - bonds associated with both atoms
+ * @returns {Array<number, 2>} furthest point from the other atom position
+ */
+function getFurthestFromOtherAtom (atomName, otherAtomPosition, bondPaths) {
+  let furthestDistance = 0
+  let furthestPoint = undefined
+  for (let i = 0; i < bondPaths.length; i++) {
+    const [fromPosition, toPosition] = getBondAtomPositions(bondPaths[i])
+    const midPosition = [
+      (fromPosition[0] + toPosition[0]) / 2,
+      (fromPosition[1] + toPosition[1]) / 2
+    ]
+    const distance = getDistance(midPosition, otherAtomPosition)
+    if (furthestDistance < distance) {
+      furthestDistance = distance
+      furthestPoint = midPosition
+    }
+  }
+  return furthestPoint
+}
+
+/**
+ * Euclidean distance between 2 2D points.
+ * @param {Array<number, 2>} point - 2D point
+ * @param {Array<number, 2>} otherPoint - other 2D point
+ * @returns {number} euclidean distance
+ */
+function getDistance (point, otherPoint) {
+  return Math.sqrt(
+    Math.pow(point[0] - otherPoint[0], 2) + Math.pow(point[1] - otherPoint[1], 2)
+  )
+}
+
+/**
+ * Get all path positions.
+ * @param {SVGElement} path - path to extract positions from
+ * @returns {Array<Array<number, 2>>} path positions
+ */
+function getPathPositions(path) {
+  const splitInstructions = path.getAttribute('d').split(' ')
+  const positions = []
+  for (const token of splitInstructions) {
+    if (token.includes(',')) {
+      console.log(token)
+      positions.push(token.split(',').map(parseFloat))
+    }
+  }
+  return positions
 }
