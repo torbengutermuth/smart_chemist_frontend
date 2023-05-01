@@ -74,12 +74,8 @@ class Viewer {
       return this.compareMatches(a, b)
     }).forEach((match) => {
       const indexes = match.atom_indices.join(',')
-      let shortendIndexes = match.atom_indices.slice(0, 2).join(', ')
-      if (match.atom_indices.length > 2) {
-        shortendIndexes += ', ...'
-      }
       const listElement = document.createElement('li')
-      listElement.innerText = `${match.trivial_name.name} (${shortendIndexes})`
+      listElement.innerText = match.trivial_name.name
       listElement.id = `${match.trivial_name.name.toLowerCase()}-${indexes}`
       listElement.classList.add('list-group-item')
       if (match.trivial_name.group == 'functional_group') {

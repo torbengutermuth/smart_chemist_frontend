@@ -11,11 +11,11 @@
 function highlightSubstructure (svgElement, atomIndexes) {
   const backgroundRect = svgElement.getElementsByTagName('rect')[0]
   const [atoms, bonds] = getSubstructureElements(svgElement, atomIndexes)
-  if (atoms.size === 0 && atomIndexes.length === 1) {
+  if (atoms.size === 0 && bonds.size === 0 && atomIndexes.length === 1) {
     const containingElements = svgElement.querySelectorAll('.atom-' + atomIndexes[0])
     let atomPosition = undefined
     // chiral down bond
-    if (containingElements.length > 10) {
+    if (containingElements.length >= 10) {
       let otherAtomName = containingElements[0].classList[1]
       if (otherAtomName === 'atom-' + atomIndexes[0]) {
           otherAtomName = containingElements[0].classList[2]
@@ -38,6 +38,7 @@ function highlightSubstructure (svgElement, atomIndexes) {
           (positions[1][1] + positions[2][1]) / 2
         ]
       }
+    // terminal carbon-carbon and carbon-heteroatom bond
     } else {
       atomPosition = getAtomPositionFromBonds('atom-' + atomIndexes[0], containingElements)
     }
@@ -219,6 +220,11 @@ function getAtomPositionFromBonds (atomName, bondPaths) {
       currentAtomPositions.push(getBondPositionForAtom(atomName, bond))
     }
 
+    if (value.length === 1) {
+      return currentAtomPositions[0]
+    } else if (combinedBonds.length === 1 && currentAtomPositions.length === 2) {
+      return currentAtomPositions[0]
+    }
     if (possibleAtomPoints.length === 0) {
       possibleAtomPoints = currentAtomPositions.slice()
     } else {
@@ -342,7 +348,6 @@ function getPathPositions(path) {
   const positions = []
   for (const token of splitInstructions) {
     if (token.includes(',')) {
-      console.log(token)
       positions.push(token.split(',').map(parseFloat))
     }
   }
