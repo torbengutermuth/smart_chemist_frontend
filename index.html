@@ -16,9 +16,10 @@
 		<script src="src/UploadToast.js"></script>
 		<script src="src/Viewer.js"></script>
 		<script src="src/highlight.js"></script>
+		<script src="src/BugReportModal.js"></script>
 		<script>
 			addEventListener("load", () => {
-                window.app = new App(document.getElementById("app"), '/api/names')
+                window.app = new App(document.getElementById("app"), '/api/names', '/api/bugs')
 			});
 		</script>
 	</body>

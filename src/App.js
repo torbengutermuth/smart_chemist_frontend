@@ -5,19 +5,24 @@ class App {
    * @param {HTMLElement} element - element to bind to
    * @param {string} baseUrl - base URL to send requests to
    */
-  constructor (element, baseUrl) {
+  constructor (element, baseUrl, bugUrl) {
     this.element = element
     this.baseUrl = baseUrl
+    this.bugUrl = bugUrl
     this.viewerId = 'viewer'
-    this.modalId = 'modal'
+    this.fileModalId = 'upload-modal'
     this.toastId = 'toast'
+    this.bugReportModalId = 'report-modal'
     this.render()
 
     this.viewer = new Viewer(document.getElementById(this.viewerId))
-    this.modal = new FileModal(document.getElementById(this.modalId))
+    this.modal = new FileModal(document.getElementById(this.fileModalId))
     this.uploadToast = new UploadToast(document.getElementById(this.toastId))
+    this.bugReportModal = new BugReportModal(document.getElementById(this.bugReportModalId))
 
     this.element.addEventListener('submit', (event) => { this.requestData(event) })
+    this.element.addEventListener('bugreport', (event) => { this.handleBugReport(event) })
+    this.element.addEventListener('submit-bugreport', (event) => { this.submitBugReport(event) })
   }
 
   /**
@@ -54,12 +59,28 @@ class App {
     })
   }
 
+  /** Start bug reporting */
+  handleBugReport (bugReportEvent) {
+    this.bugReportModal.setMolecule(bugReportEvent.detail.molecule)
+    this.bugReportModal.show()
+  }
+
+  /** Submit bug report */
+  submitBugReport (bugReportSubmission) {
+    this.bugReportModal.hide()
+    fetch(this.bugUrl, {
+      method: 'POST',
+      body: bugReportSubmission.detail.formData,
+    })
+  }
+
   /** Render the app. */
   render () {
     this.element.innerHTML = `
     <div id="${this.viewerId}"></div>
-    <div id="${this.modalId}"></div>
+    <div id="${this.fileModalId}"></div>
     <div id="${this.toastId}"></div>
+    <div id="${this.bugReportModalId}"></div>
 `
   }
 }

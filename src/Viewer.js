@@ -48,7 +48,6 @@ class Viewer {
       this.innerCarousel.appendChild(carouselItem)
 
       if (first && molecule.matches.length > 0) {
-        console.error("First molecule has no matches")
         const svgElement = carouselItem.getElementsByTagName('svg')[0]
         highlightSubstructure(svgElement, molecule.matches[0].atom_indices)
         first = false
@@ -187,6 +186,20 @@ class Viewer {
   }
 
   /**
+   * Fire a bug report event with relevant information
+   * @param {object} molecule - molecule for the bug report
+   */
+  fireBugReport (molecule) {
+    const bugReportEvent = new CustomEvent("bugreport", {
+      detail: {
+        molecule: molecule
+      },
+      bubbles: true
+    })
+    this.element.dispatchEvent(bugReportEvent)
+  }
+
+  /**
    * Create a carousel item for a molecule. Sets the SVG and the name.
    * @param {object} molecule - molecule to create an element for
    */
@@ -198,7 +211,10 @@ class Viewer {
 <div class="text-center">
     ${molecule.svg}
     <h5>${molecule.name}</h5>
+    <a class="link-primary">Report Bug</a>
 </div>`
+    const reportBugLink = carouselItem.getElementsByTagName("a")[0]
+    reportBugLink.onclick = () => { this.fireBugReport(molecule) }
     return carouselItem
   }
 
