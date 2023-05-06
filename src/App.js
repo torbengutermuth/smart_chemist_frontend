@@ -10,10 +10,12 @@ class App {
     this.baseUrl = baseUrl
     this.viewerId = 'viewer'
     this.modalId = 'modal'
+    this.toastId = 'toast'
     this.render()
 
     this.viewer = new Viewer(document.getElementById(this.viewerId))
     this.modal = new FileModal(document.getElementById(this.modalId))
+    this.uploadToast = new UploadToast(document.getElementById(this.toastId))
 
     this.element.addEventListener('submit', (event) => { this.requestData(event) })
   }
@@ -33,14 +35,31 @@ class App {
         this.modal.showError('Encountered a server error')
         return
       }
-      const molecules = await response.json()
+      const jsonResponse = await response.json()
+      // last element ist the upload statistics
+      // FIXME this should be a different kind of structured data
+      let molecules = undefined
+      let uploadErrors = undefined
+      if (jsonResponse.length > 1) {
+        molecules = jsonResponse.slice(0, -1)
+        uploadErrors = jsonResponse[jsonResponse.length - 1]
+      } else {
+        molecules = jsonResponse
+      }
       this.modal.hide()
+      if (uploadErrors) {
+        this.uploadToast.showError(`${uploadErrors["number_problems"]} errors, ${uploadErrors["number_skipped"]} skipped`)
+      }
       this.viewer.setMolecules(molecules)
     })
   }
 
   /** Render the app. */
   render () {
-    this.element.innerHTML = `<div id="${this.viewerId}"></div><div id="${this.modalId}"></div>`
+    this.element.innerHTML = `
+    <div id="${this.viewerId}"></div>
+    <div id="${this.modalId}"></div>
+    <div id="${this.toastId}"></div>
+`
   }
 }

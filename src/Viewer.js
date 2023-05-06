@@ -47,7 +47,8 @@ class Viewer {
 
       this.innerCarousel.appendChild(carouselItem)
 
-      if (first) {
+      if (first && molecule.matches.length > 0) {
+        console.error("First molecule has no matches")
         const svgElement = carouselItem.getElementsByTagName('svg')[0]
         highlightSubstructure(svgElement, molecule.matches[0].atom_indices)
         first = false
@@ -60,6 +61,11 @@ class Viewer {
    * @param {Array<objects>} matches - the matches to set
    */
   setMatches (matches) {
+    if (matches.length === 0) {
+      // nothing to do
+      console.error("Tried to set empty matches")
+      return
+    }
     const previousMatches = this.matches.getElementsByTagName('li')
     while (previousMatches.length > 0) {
       previousMatches[0].remove()
