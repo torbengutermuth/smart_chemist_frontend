@@ -1,5 +1,9 @@
 # SMART Chemist Frontend
 
+## Architecture
+
+App.js is the central component. It is bound to an element in the index.html. All other components are initialized by the central app. All requests to the backend server are done through the central app. Communication of components with each other is orchestrated by components creating events and the central app forwarding these to their intended destinations.
+
 ## Standalone Setup
 
 Any HTTP server that can serve files statically will work. Run this command to use the python3 http server:
