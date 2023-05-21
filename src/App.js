@@ -25,6 +25,54 @@ class App {
     this.element.addEventListener('submit-bugreport', (event) => { this.submitBugReport(event) })
   }
 
+  static async fetchJson (path, method, formData = undefined) {
+    try {
+      const response = await fetch(path, {
+        method: method,
+        body: formData
+      })
+      return await response.json()
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+    /**
+   * Pause execution of the Program for time in ms
+   * @param {Number} time time in ms
+   */
+  static async sleep (time) {
+    return new Promise(resolve => setTimeout(resolve, time, 'done'))
+  }
+
+    /**
+   * Poll the status of a job until it is not 'pending' or 'running' anymore
+   * @param {string} path URL from which to fetch
+   * @param {string} jobID String containing Job-ID
+   * @param {number} interval Time in ms to wait in betweens polls
+   * @param {integer} maxPolls Maximum number of times to poll before exiting
+   * @returns {object} Returns json object
+   */
+  static async pollJob (path, jobID, interval = 1000, maxPolls = 10) {
+    console.error(path + jobID + '/')
+    try {
+      let job = await this.fetchJson(path + jobID + '/', 'GET')
+      console.error(job)
+      let currentPoll = 0
+      while (job.status === 'pending' || job.status === 'running') {
+        currentPoll = currentPoll + 1
+        if (currentPoll >= maxPolls) {
+          return job
+        }
+        await this.sleep(interval)
+        job = await this.fetchJson(path + jobID + '/', 'GET')
+      }
+      return job
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   /**
    * Call the server with a request.
    * @param {object} submitEvent - submit event object
@@ -40,14 +88,24 @@ class App {
         this.modal.showError('Encountered a server error')
         return
       }
-      const jsonResponse = await response.json()
+      const job_json = await response.json()
+      const jsonResponse_raw = await App.pollJob("/jobs/", job_json["job_id"])
+      console.error(jsonResponse_raw)
+      console.log(jsonResponse_raw["output_info"])
+      let resulting_json = await App.fetchJson('/jobs_output/' + jsonResponse_raw["output_info"] + "/", 'GET')
+      let jsonResponse = resulting_json["output_json"]
+      console.error(jsonResponse)
+      console.error(jsonResponse.length)
+      // console.error(jsonResponse.length)
       // last element ist the upload statistics
       // FIXME this should be a different kind of structured data
       let molecules = undefined
       let uploadErrors = undefined
       if (jsonResponse.length > 1) {
         molecules = jsonResponse.slice(0, -1)
+        console.error(molecules)
         uploadErrors = jsonResponse[jsonResponse.length - 1]
+        console.error(uploadErrors)
       } else {
         molecules = jsonResponse
       }
