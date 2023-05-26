@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" class="h-100">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Bootstrap CSS -->
+		<link href="vendor/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="main.css">
+		<title>SMART Chemist</title>
+	</head>
+	<body>
+        <div id="banner" class="bg-light p-2">
+            <div class="container-fluid">
+                <div class="float-left">
+                    <a href="https://www.uni-hamburg.de/" target="_blank">
+                        <img src="images/UHH-Logo_2010_Farbe_RGB.png"
+                             alt="Universität Hamburg - der Forschung, der Lehre, der Bildung">
+                    </a>
+                </div>
+                <div class="float-right">
+                        <a href="https://www.zbh.uni-hamburg.de/"
+                           style="color: black; text-decoration: none">
+                            <h3>ZBH - Center for Bioinformatics</h3>
+                        </a>
+                </div>
+            </div>
+        </div>
+<div id="content" class="flex-grow-1 container bg-white">
+    <h1>About</h1>
+    <p>
+        The SMARTSchemist server shall enable anyone to competently and adequatly discuss the chemistry of molecules.
+        This is done by matching common substructures of molecules and highlighting them including their (trivial) names.
+        The substructures highlighted are common functional groups, small (hetero)cycles and some biologically relevant molecules.
+        <br>
+        As always, there are multiple different resources we used to built the SMARTSchemist, namely rdkit for the
+        cheminformatics platform to enable doing this completely open source, a publication of Ihlenfeldt et. al.
+        as a starting point for common functional groups (heavily altered) and PubchemPy which was used to automatically
+        name generated heterocycles.
+        <br>
+        The SMARTSchemist is the brain child of Torben Gutermuth (main Developer, Pattern Generation),
+        Jochen Sieg (Developer) and Patrick Penner (Early Planning) and was developed during their respective
+        times as PHD student in the group of Matthias Rarey in Hamburg.
+    </p>
+    <ul>
+        <li>
+            Judson, P. N., Ihlenfeldt, W. D., Patel, H., Delannée, V., Tarasova, N., & Nicklaus, M. C. (2020).
+            Adapting CHMTRN (chemistry translator) for a new use. Journal of chemical information and modeling, 60(7), 3336-3341.
+            <a href="https://pubs.acs.org/doi/full/10.1021/acs.jcim.0c00448" target="_blank">Publication</a>
+        </li>
+        <li>
+            RDKit: Open-source cheminformatics. <a href="http://rdkit.org/" target="_blank">Website</a>
+        </li>
+        <li>
+            PubchemPy. <a href="https://github.com/mcs07/PubChemPy" target="_blank">PubchemPy Github</a>
+        </li>
+    </ul>
+    <p>
+        A complete list of dependencies and their licenses can be found in the respective source
+        code repositories:
+    </p>
+    <p>
+        The University of Hamburg uses Matomo for web analysis. The torsions server does not use any
+        cookies. Further information about tracking on University of Hamburg websites can be found
+        in the <a href="https://www.uni-hamburg.de/en/datenschutz.html" target="_blank">Privacy
+        Policy</a>.
+    </p>
+</div>
+<div id="footer" class="bg-light p-2">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col d-flex flex-row">
+                <a href="about.html" target="_blank" class="flex-grow-1 btn btn-outline-secondary">About</a>
+            </div>
+            <div class="col d-flex flex-row">
+                <a href="mailto:torben.gutermuth@uni-hamburg.de"
+                   class="flex-grow-1 btn btn-outline-secondary">Feedback</a>
+            </div>
+            <div class="col d-flex flex-row">
+                <a href="https://www.uni-hamburg.de/en/datenschutz.html"
+                   target="_blank"
+                   class="flex-grow-1 btn btn-outline-secondary">Privacy Policy</a>
+            </div>
+            <div class="col d-flex flex-row">
+                <a href="https://www.zbh.uni-hamburg.de/en/imprint.html"
+                   target="_blank"
+                   class="flex-grow-1 btn btn-outline-secondary">Legal Notice</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

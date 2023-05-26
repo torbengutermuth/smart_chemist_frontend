@@ -54,10 +54,8 @@ class App {
    * @returns {object} Returns json object
    */
   static async pollJob (path, jobID, interval = 1000, maxPolls = 10) {
-    console.error(path + jobID + '/')
     try {
       let job = await this.fetchJson(path + jobID + '/', 'GET')
-      console.error(job)
       let currentPoll = 0
       while (job.status === 'pending' || job.status === 'running') {
         currentPoll = currentPoll + 1
@@ -90,12 +88,8 @@ class App {
       }
       const job_json = await response.json()
       const jsonResponse_raw = await App.pollJob("/jobs/", job_json["job_id"])
-      console.error(jsonResponse_raw)
-      console.log(jsonResponse_raw["output_info"])
       let resulting_json = await App.fetchJson('/jobs_output/' + jsonResponse_raw["output_info"] + "/", 'GET')
       let jsonResponse = resulting_json["output_json"]
-      console.error(jsonResponse)
-      console.error(jsonResponse.length)
       // console.error(jsonResponse.length)
       // last element ist the upload statistics
       // FIXME this should be a different kind of structured data
@@ -103,9 +97,7 @@ class App {
       let uploadErrors = undefined
       if (jsonResponse.length > 1) {
         molecules = jsonResponse.slice(0, -1)
-        console.error(molecules)
         uploadErrors = jsonResponse[jsonResponse.length - 1]
-        console.error(uploadErrors)
       } else {
         molecules = jsonResponse
       }
