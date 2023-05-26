@@ -6,9 +6,26 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- Bootstrap CSS -->
 		<link href="vendor/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="main.css">
 		<title>SMART Chemist</title>
 	</head>
 	<body>
+        <div id="banner" class="bg-light p-2">
+            <div class="container-fluid">
+                <div class="float-left">
+                    <a href="https://www.uni-hamburg.de/" target="_blank">
+                        <img src="images/UHH-Logo_2010_Farbe_RGB.png"
+                             alt="Universität Hamburg - der Forschung, der Lehre, der Bildung">
+                    </a>
+                </div>
+                <div class="float-right">
+                        <a href="https://www.zbh.uni-hamburg.de/"
+                           style="color: black; text-decoration: none">
+                            <h3>ZBH - Center for Bioinformatics</h3>
+                        </a>
+                </div>
+            </div>
+        </div>
         <div id="app"></div>
 		<script src="vendor/js/bootstrap.bundle.min.js"></script>
 		<script src="src/App.js"></script>
@@ -22,5 +39,31 @@
                 window.app = new App(document.getElementById("app"), '/api/names', '/api/bugs')
 			});
 		</script>
+
+        <div id="footer" class="bg-light p-2">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col d-flex flex-row">
+                        <a href="about.html" target="_blank" class="flex-grow-1 btn btn-outline-secondary">About</a>
+                    </div>
+                    <div class="col d-flex flex-row">
+                        <a href="mailto:penner@zbh.uni-hamburg.de"
+                           class="flex-grow-1 btn btn-outline-secondary">Feedback</a>
+                    </div>
+                    <div class="col d-flex flex-row">
+                        <a href="https://www.uni-hamburg.de/en/datenschutz.html"
+                           target="_blank"
+                           class="flex-grow-1 btn btn-outline-secondary">Privacy Policy</a>
+                    </div>
+                    <div class="col d-flex flex-row">
+                        <a href="https://www.zbh.uni-hamburg.de/en/imprint.html"
+                           target="_blank"
+                           class="flex-grow-1 btn btn-outline-secondary">Legal Notice</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 	</body>
 </html>
