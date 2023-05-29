@@ -3,7 +3,8 @@ class Viewer {
   MATCH_SORT_ORDER = {
     'functional_group': 0,
     'cyclic': 1,
-    'overshadowed': 2
+    'biological' : 2,
+    'overshadowed': 3
   }
 
   /**
@@ -84,10 +85,13 @@ class Viewer {
       listElement.id = `${match.trivial_name.name.toLowerCase()}-${indexes}`
       listElement.classList.add('list-group-item')
       if (match.trivial_name.group == 'functional_group') {
-        listElement.classList.add('list-group-item-success')
+        listElement.classList.add('list-group-item-primary')
         this.matches.appendChild(listElement)
       } else if (match.trivial_name.group == 'cyclic') {
-        listElement.classList.add('list-group-item-primary')
+        listElement.classList.add('list-group-item-dark')
+        this.matches.appendChild(listElement)
+      } else if (match.trivial_name.group == 'biological') {
+        listElement.classList.add('list-group-item-success')
         this.matches.appendChild(listElement)
       } else {
         listElement.classList.add('list-group-item-warning')
@@ -211,7 +215,7 @@ class Viewer {
 <div class="text-center">
     ${molecule.svg}
     <h5>${molecule.name}</h5>
-    <a class="link-primary">Report Bug</a>
+    <a class="link-primary">Report problematic/missing pattern</a>
 </div>`
     const reportBugLink = carouselItem.getElementsByTagName("a")[0]
     reportBugLink.onclick = () => { this.fireBugReport(molecule) }
@@ -246,7 +250,7 @@ class Viewer {
                 <ul class="list-group">
                     <div class="collapse overshadowed" id="${this.collapseId}">
                     </div>
-                    <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#${this.collapseId}">
+                    <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#${this.collapseId}" title="Overshadowed patterns are patterns that are included in other patterns and therefore not displayed as default">
                         Toggle overshadowed
                     </button>
                 </ul>
