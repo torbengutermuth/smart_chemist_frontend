@@ -251,7 +251,7 @@ class Viewer {
                     <div class="collapse overshadowed" id="${this.collapseId}">
                     </div>
                     <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#${this.collapseId}" title="Overshadowed patterns are patterns that are included in other patterns and therefore not displayed as default">
-                        Toggle overshadowed
+                        Toggle overshadowed &#9432;
                     </button>
                 </ul>
             </div>
