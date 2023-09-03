@@ -1,9 +1,21 @@
-#footer{
-
-    position: fixed;
-    background:gray;
+#footer {
+    bottom: 0;
+    color: #707070;
+    height: 2em;
+    left: 0;
+    right: 0;
+    padding : 5rem;
+    position: relative; //changed to relative from fixed also works if position is not there
+    font-size: small;
     width:100%;
-    bottom:0;
+}
+#seperator {
+    padding-bottom: 5rem;
+    padding-top: 7rem;
+}
+
+body {
+    min-height: 90%;
 }
 
 .float-left {

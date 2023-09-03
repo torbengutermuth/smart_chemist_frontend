@@ -8,6 +8,22 @@
 		<link href="vendor/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="main.css">
 		<title>SMART Chemist</title>
+	<!-- Matomo -->
+
+	<script>
+  	var _paq = window._paq = window._paq || [];
+  	/* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  	_paq.push(['trackPageView']);
+  	_paq.push(['enableLinkTracking']);
+  	(function() {
+    	var u="https://amd.zbh.uni-hamburg.de/analytics/";
+    	_paq.push(['setTrackerUrl', u+'matomo.php']);
+    	_paq.push(['setSiteId', '8']);
+    	var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    	g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+ 	 })();
+	</script>
+	<!-- End Matomo Code -->	
 	</head>
 	<body>
         <div id="banner" class="bg-light p-2">
@@ -26,24 +42,23 @@
                 </div>
             </div>
         </div>
-        <br>
-        <br>
-        <br>
-        <div id="app"></div>
-		<script src="vendor/js/bootstrap.bundle.min.js"></script>
-		<script src="src/App.js"></script>
-		<script src="src/FileModal.js"></script>
-		<script src="src/UploadToast.js"></script>
-		<script src="src/Viewer.js"></script>
-		<script src="src/highlight.js"></script>
-		<script src="src/BugReportModal.js"></script>
-		<script>
-			addEventListener("load", () => {
-                window.app = new App(document.getElementById("app"), '/api/names', '/api/bugs')
-			});
-		</script>
+        <div id="seperator" class="container-fluid">
+            <div id="app"></div>
+            <script src="vendor/js/bootstrap.bundle.min.js"></script>
+            <script src="src/App.js"></script>
+            <script src="src/FileModal.js"></script>
+            <script src="src/UploadToast.js"></script>
+            <script src="src/Viewer.js"></script>
+            <script src="src/highlight.js"></script>
+            <script src="src/BugReportModal.js"></script>
+            <script>
+                addEventListener("load", () => {
+                    window.app = new App(document.getElementById("app"), '/api/names', '/api/bugs')
+                });
+            </script>
+        </div>
 
-        <div id="footer" class="bg-light p-2">
+        <div footer class="footer mt-auto py-3 bg-light fixed-bottom">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col d-flex flex-row">

@@ -31,7 +31,7 @@ class FileModal {
     if (this.form.smiles.value === ''
         && this.form['molecule_file'].value === '') {
       submitEvent.preventDefault()
-      this.showError('Requires either a SMILES or a molecule file')
+     // this.showError('Requires either a SMILES or a molecule file')
     }
   }
 
