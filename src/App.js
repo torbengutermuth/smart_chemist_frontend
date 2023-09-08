@@ -101,6 +101,10 @@ class App {
       } else {
         molecules = jsonResponse
       }
+      if (jsonResponse.length == 0){
+        this.modal.showError('No valid Molecules')
+        return
+      }
       this.modal.hide()
       if (uploadErrors) {
         this.uploadToast.showError(`${uploadErrors["number_problems"]} errors, ${uploadErrors["number_skipped"]} skipped`)
