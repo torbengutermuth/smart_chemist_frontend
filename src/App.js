@@ -101,7 +101,7 @@ class App {
       } else {
         molecules = jsonResponse
       }
-      if (jsonResponse.length == 0){
+      if (jsonResponse.length == 1){
         this.modal.showError('No valid Molecules')
         return
       }
