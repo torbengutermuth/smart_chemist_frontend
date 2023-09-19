@@ -86,7 +86,8 @@ class FileModal {
                 <div class="modal-footer">
                     <p class="text-danger visually-hidden" id="${this.errorMessageId}"></p>
                     <input type="submit" value="Submit" class="btn btn-primary"/>
-                </div>
+                    <input type="submit" value="Examples" class="btn btn-primary"/>
+		</div>
             </form>
         </div>
     </div>
