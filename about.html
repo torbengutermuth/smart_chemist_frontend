@@ -10,21 +10,18 @@
 		<title>SMART Chemist</title>
 	</head>
 	<body>
-        <div id="banner" class="bg-light p-2">
-            <div class="container-fluid">
-                <div class="float-left">
-                    <a href="https://www.uni-hamburg.de/" target="_blank">
+        <div id="banner" class="bg-light p-2 container space-between mw-100">
+                <a href="https://www.uni-hamburg.de/" target="_blank">
                         <img src="images/UHH-Logo_2010_Farbe_RGB.png"
                              alt="Universität Hamburg - der Forschung, der Lehre, der Bildung">
                     </a>
-                </div>
-                <div class="float-right">
-                        <a href="https://www.zbh.uni-hamburg.de/"
+                <a href="https://chemist.smarts.plus/about.html" target="_blank">
+                        <img src="images/grey_logo.png"
+                             alt="martChemist Logo", height="70px">
+                                        <a href="https://www.zbh.uni-hamburg.de/"
                            style="color: black; text-decoration: none">
                             <h3>ZBH - Center for Bioinformatics</h3>
                         </a>
-                </div>
-            </div>
         </div>
 <div id="content" class="flex-grow-1 container bg-white">
     <div id="seperator" class="container-fluid">
@@ -36,12 +33,13 @@
             <br>
             As always, there are multiple different resources we used to build the SmartChemist, namely rdkit for the
             cheminformatics platform to enable doing this completely open source, a publication of Ihlenfeldt et. al.
-            as a starting point for common functional groups (heavily altered) and PubchemPy which was used to automatically
-            name generated heterocycles.
+            and the SMARTS examples page of the Daylight page
+            as a starting point for common functional groups (heavily altered) and Pubchem which was used to automatically
+            extract names of (hetero)cycles.
             <br>
             The SmartChemist is the brain child of Torben Gutermuth (main Developer, Pattern Generation),
-            Jochen Sieg (Developer) and Patrick Penner (Early Planning) and was developed during their respective
-            times as PHD student in the group of Matthias Rarey in Hamburg.
+            Dr.Jochen Sieg (Developer), Dr.Patrick Penner (Early Planning) and Dr.Uschi Dolfus (Tester and Creative Mind) and was developed during their respective
+            times as PhD student in the group of Matthias Rarey in Hamburg.
         </p>
         <ul>
             <li>
@@ -50,15 +48,15 @@
                 <a href="https://pubs.acs.org/doi/full/10.1021/acs.jcim.0c00448" target="_blank">Publication</a>
             </li>
             <li>
-                RDKit: Open-source cheminformatics. <a href="http://rdkit.org/" target="_blank">Website</a>
+                DayLight SMARTS Examples. <a href="https://daylight.com/dayhtml_tutorials/languages/smarts/smarts_examples.html" target="_blank">Website</a>
             </li>
             <li>
-                PubchemPy. <a href="https://github.com/mcs07/PubChemPy" target="_blank">PubchemPy Github</a>
+                RDKit: Open-source cheminformatics. <a href="http://rdkit.org/" target="_blank">Website</a>
             </li>
         </ul>
         <p>
             A complete list of dependencies and their licenses can be found in the respective source
-            code repositories:
+            code repositories:  <a href="https://github.com/torbengutermuth/SmartChemist" target="_blank">Backend</a>
         </p>
         <p>
             The University of Hamburg uses Matomo for web analysis. The SmartChemist server does not use any

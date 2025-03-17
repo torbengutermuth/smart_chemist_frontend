@@ -216,7 +216,11 @@ class Viewer {
     ${molecule.svg}
     <h5>${molecule.name}</h5>
     <a class="link-primary">Report problematic/missing pattern</a>
+    <br>
+    <button type="button" class="btn btn-primary mt-2" onclick="window.location.href='https://chemist.smarts.plus/'">Enter another molecule</button>
+
 </div>`
+
     const reportBugLink = carouselItem.getElementsByTagName("a")[0]
     reportBugLink.onclick = () => { this.fireBugReport(molecule) }
     return carouselItem
