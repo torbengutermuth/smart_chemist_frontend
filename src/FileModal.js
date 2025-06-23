@@ -1,3 +1,5 @@
+//import { JSApplet } from "vendor/js/jsme-editor/jsme.nocache.js";
+
 /** File and molecule upload modal. */
 class FileModal {
   /**
@@ -25,15 +27,16 @@ class FileModal {
     });
     document.getElementById("viewerToggle").addEventListener("click", this.toggleViewer);
     this.errorMessage = document.getElementById(this.errorMessageId);
-
-    this.jsme = new JSApplet.JSME("jsme_container", "465px", "348px", {
-      options: "oldlook,marker,markerMenu, markAtomOnly",
-      atombgsize: "1",
-      bondbgsize: "1",
-    });
-    let self = this;
-    this.jsme.setCallBack("AfterStructureModified", (e) => {
-      self.form.smiles.value = this.jsme.smiles();
+    window.addEventListener("addJSME", () => {
+      let self = window.app.modal;
+      self.jsme = new JSApplet.JSME("jsme-container", `400px`, "348px", {
+        options: "oldlook,marker,markerMenu, markAtomOnly",
+        atombgsize: "1",
+        bondbgsize: "1",
+      });
+      self.jsme.setCallBack("AfterStructureModified", (e) => {
+        self.form.smiles.value = self.jsme.smiles();
+      });
     });
   }
 
@@ -55,8 +58,23 @@ class FileModal {
   }
 
   toggleViewer() {
-    this.showEditor = !this.showEditor;
-    document.getElementById("jsme_container").style.display = this.showEditor ? "block" : "none";
+    let self = window.app.modal;
+    self.showEditor = !self.showEditor;
+    document.getElementById("jsme-container").style.display = self.showEditor ? "block" : "none";
+
+    function getContentWidth(element) {
+      let widthWithPaddings = element.clientWidth;
+      const elementComputedStyle = window.getComputedStyle(element, null);
+      return (
+        widthWithPaddings -
+        parseFloat(elementComputedStyle.paddingLeft) -
+        parseFloat(elementComputedStyle.paddingRight)
+      );
+    }
+    if (self.showEditor) {
+      const width = getContentWidth(document.getElementById("jsme-container"));
+      self.jsme.setWidth(`${width}px`);
+    }
   }
 
   /** Hide the modal. */
@@ -105,7 +123,8 @@ class FileModal {
                                 Editor
                             </button>
                         </div>
-                        <div style="display: none;padding-top: 5px" id="jsme_container"></div>
+                        <div style="display: none;padding-top: 5px" id="jsme-container">
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="mol-file" class="form-label">File</label>
