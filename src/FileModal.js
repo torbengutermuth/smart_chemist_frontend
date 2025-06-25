@@ -131,10 +131,10 @@ class FileModal {
                         <input type="file" name="molecule_file" class="form-control" accept=".smi, .sdf"/>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer d-flex">
                     <p class="text-danger visually-hidden" id="${this.errorMessageId}"></p>
-                    <input type="submit" value="Submit" class="btn btn-primary"/>
                     <input type="submit" value="Examples" class="btn btn-primary"/>
+                    <input type="submit" value="Submit" class="btn btn-primary ms-auto"/>
 		            </div>
             </form>
         </div>
