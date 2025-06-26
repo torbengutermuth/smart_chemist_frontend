@@ -103,19 +103,24 @@ class FileModal {
   /** Render the modal. */
   render() {
     this.element.innerHTML = `
-<div class="modal fade" id="${this.modalId}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="${this.modalLabelId}" aria-hidden="false" role="dialog">
+<div class="modal fade" id="${this.modalId}" data-bs-backdrop="static"
+data-bs-keyboard="false" tabindex="-1" aria-labelledby="${this.modalLabelId}"
+aria-hidden="false" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form class="form">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="${this.modalLabelId}">Load Molecules</h5>
+                    <h5 class="modal-title" id="${this.modalLabelId}">
+                        Load Molecules
+                    </h5>
                 </div>
                 <div class="modal-body" id="${this.modalBodyID}">
                     <div class="mb-3">
                         <label for="smiles" class="form-label">SMILES</label>
-                        <div class="row">
+                        <div class="row" style="padding-bottom: 10px">
                             <div class="col-md-9">
-                                <input type="text" name="smiles" class="form-control"/>
+                                <input type="text" name="smiles"
+                                class="form-control"/>
                             </div>
                         <div class="col-md-3">
                             <button type="button" class="btn btn-primary w-100"
@@ -123,18 +128,30 @@ class FileModal {
                                 Editor
                             </button>
                         </div>
-                        <div style="display: none;padding-top: 5px" id="jsme-container">
+                        <div style="display: none;padding-top: 5px"
+                        id="jsme-container">
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="mol-file" class="form-label">File</label>
-                        <input type="file" name="molecule_file" class="form-control" accept=".smi, .sdf"/>
+                        <input type="file" name="molecule_file"
+                        class="form-control" accept=".smi, .sdf"/>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <p class="text-danger visually-hidden" id="${this.errorMessageId}"></p>
-                    <input type="submit" value="Submit" class="btn btn-primary"/>
-                    <input type="submit" value="Examples" class="btn btn-primary"/>
+                <div class="modal-footer m-0 zero-hpad">
+                    <p class="text-danger visually-hidden"
+                    style="padding-bottom: 5px"
+                    id="${this.errorMessageId}"></p>
+                    <div class="row w-100 zero-hpad zero-hmargin">
+                        <div class="col-md-6 zero-hpad">
+                            <input type="submit" value="Examples"
+                            class="btn btn-primary float-start"/>
+                        </div>
+                        <div class="col-md-6 zero-hpad">
+                            <input type="submit" value="Submit"
+                            class="btn btn-primary float-end"/>
+                        </div>
+                    </div>
 		            </div>
             </form>
         </div>
