@@ -116,7 +116,10 @@ aria-hidden="false" role="dialog">
                 </div>
                 <div class="modal-body" id="${this.modalBodyID}">
                     <div class="mb-3">
-                        <label for="smiles" class="form-label">SMILES</label>
+                        <label for="smiles" class="form-label">
+                            String Input
+                            <span style="margin-left: 5px; cursor: help;" title="Enter the SMILES notation of the molecule or a database identifier for ChEMBL, ChEBI or Pubchem (e.g. chembl:CHEMBL23827) or the name of a pattern (e.g. Aldimine)">ℹ️</span>                        
+                        </label>
                         <div class="row" style="padding-bottom: 10px">
                             <div class="col-md-9">
                                 <input type="text" name="smiles"
